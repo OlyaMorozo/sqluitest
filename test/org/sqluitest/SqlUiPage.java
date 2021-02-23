@@ -1,11 +1,11 @@
 package org.sqluitest;
 
 import com.codeborne.selenide.*;
-import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.CollectionCondition.*;
+import static com.codeborne.selenide.Selectors.*;
 
 public class SqlUiPage {
 
@@ -16,11 +16,11 @@ public class SqlUiPage {
     }
 
     public SelenideElement getModifyTableResult() {
-        return $(By.xpath("//div[@id='divResultSQL']/div[contains(text(), 'You have made changes to the database.')]"));
+        return $(byXpath("//div[@id='divResultSQL']/div[contains(text(), 'You have made changes to the database.')]"));
     }
 
     public ElementsCollection getRows() {
-        return $$(By.xpath("//div[@id='divResultSQL']//tbody/tr[not(descendant::th)]"));
+        return $$(byXpath("//div[@id='divResultSQL']//tbody/tr[not(descendant::th)]"));
     }
 
     public SelenideElement getRowWhere(String columnName, String value) {
@@ -28,13 +28,18 @@ public class SqlUiPage {
         String rowXpath = String.format(
                 "//div[@id='divResultSQL']//tbody/tr[td[%s][contains(text(), '%s')]]", columnIndex + 1, value
         );
-        return $(By.xpath(rowXpath));
+        return $(byXpath(rowXpath));
     }
 
     public SelenideElement getColumnFromRow(SelenideElement row, String columnName) {
         int columnIndex = getColumnIndexByName(columnName);
         String columnSelector = String.format("td:nth-child(%s)", columnIndex + 1);
-        return row.find(By.cssSelector(columnSelector));
+        return row.find(columnSelector);
+    }
+
+    public void restoreDataBase() {
+        $("#restoreDBBtn").shouldBe(visible).click();
+        prompt();
     }
 
     private int getColumnIndexByName(String columnName) {
@@ -43,6 +48,4 @@ public class SqlUiPage {
         SelenideElement column = columns.findBy(exactText(columnName));
         return columns.indexOf(column);
     }
-
-
 }

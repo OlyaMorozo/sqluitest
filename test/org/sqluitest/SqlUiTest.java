@@ -17,6 +17,7 @@ public class SqlUiTest {
     @BeforeClass
     public static void openPage() {
         open("https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all");
+        page.restoreDataBase();
     }
 
     @Test
@@ -69,5 +70,4 @@ public class SqlUiTest {
         page.executeStatement(selectStatement);
         page.getRows().shouldHave(sizeGreaterThan(0));
     }
-
 }
