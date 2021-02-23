@@ -1,6 +1,7 @@
 package org.sqluitest;
 
 import com.codeborne.selenide.SelenideElement;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -17,6 +18,10 @@ public class SqlUiTest {
     @BeforeClass
     public static void openPage() {
         open("https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all");
+    }
+
+    @Before
+    public void restoreDatabase() {
         page.restoreDataBase();
     }
 
@@ -39,7 +44,7 @@ public class SqlUiTest {
                 " VALUES ('Morozova Olga','Morozova Olga','Pushkina 5','Novosibirsk', '630132', 'Russia');";
         page.executeStatement(insertStatement);
         page.getModifyTableResult().shouldBe(visible);
-        
+
         String selectStatement = "SELECT * FROM Customers"
                 + " WHERE CustomerName = 'Morozova Olga' AND ContactName = 'Morozova Olga'"
                 + " AND Address = 'Pushkina 5' AND City = 'Novosibirsk'"
