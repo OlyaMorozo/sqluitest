@@ -39,8 +39,7 @@ public class SqlUiTest {
                 " VALUES ('Morozova Olga','Morozova Olga','Pushkina 5','Novosibirsk', '630132', 'Russia');";
         page.executeStatement(insertStatement);
         page.getModifyTableResult().shouldBe(visible);
-
-
+        
         String selectStatement = "SELECT * FROM Customers"
                 + " WHERE CustomerName = 'Morozova Olga' AND ContactName = 'Morozova Olga'"
                 + " AND Address = 'Pushkina 5' AND City = 'Novosibirsk'"
